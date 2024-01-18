@@ -55,6 +55,8 @@ class Gravity {
   bool floatOnly;
   bool gravityOnly;
 
+  bool isFloating = false;
+
 
   double get time => DateTime.now().millisecondsSinceEpoch / timeSlowDownFactor;
 
@@ -68,6 +70,9 @@ class Gravity {
 
 
   Future<void> float() async {
+    if (isFloating) return;
+
+    isFloating = true;
     calcForMobile();
     Timer.periodic(const Duration(milliseconds: 1), (timer) {
       updatePositionAll();
