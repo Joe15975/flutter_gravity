@@ -73,7 +73,9 @@ class Gravity {
     if (isFloating) return;
 
     isFloating = true;
-    calcForMobile();
+    if (Platform.isAndroid || Platform.isIOS){
+      calcForMobile();
+    }
     Timer.periodic(const Duration(milliseconds: 1), (timer) {
       updatePositionAll();
       if (Platform.isWindows || Platform.isLinux || Platform.isMacOS){
