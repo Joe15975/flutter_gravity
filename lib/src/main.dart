@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gravity/my_screen.dart';
 import 'package:window_manager/window_manager.dart';
+
+import 'my_screen.dart';
 
 ValueNotifier<bool> isDarkMode = ValueNotifier<bool>(false);
 

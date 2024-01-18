@@ -1,9 +1,10 @@
 
 import 'package:animated_theme_changing/animated_theme_changing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gravity/garvity/position_calculator.dart';
 
+import 'garvity/position_calculator.dart';
 import 'main.dart';
+
 
 class MyScreen extends StatefulWidget {
   const MyScreen({super.key});
@@ -14,7 +15,8 @@ class MyScreen extends StatefulWidget {
 
 class _MyScreenState extends State<MyScreen> {
 
-  Gravity gravity = Gravity();
+  Gravity gravity = Gravity(
+  );
 
   @override
   void initState() {
