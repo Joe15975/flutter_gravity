@@ -3,7 +3,7 @@ import 'package:flutter_gravity/src/garvity/position_calculator.dart';
 
 class GravityWidget extends StatelessWidget {
 
-  final Widget widget;
+  final Widget child;
   final Gravity? gravity;
 
   factory GravityWidget({
@@ -13,13 +13,13 @@ class GravityWidget extends StatelessWidget {
     gravity ??= Gravity();
     gravity.float();
     return GravityWidget._(
-      widget: widget,
       gravity: gravity,
+      child: widget,
     );
   }
 
   const GravityWidget._({
-    required this.widget,
+    required this.child,
     this.gravity,
   });
 
@@ -33,7 +33,7 @@ class GravityWidget extends StatelessWidget {
             child: child,
           );
         },
-      child: widget,
+      child: child,
     );
   }
 }

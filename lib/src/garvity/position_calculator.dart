@@ -68,6 +68,11 @@ class Gravity {
 
   ValueNotifier<Offset> vector = ValueNotifier<Offset>(Offset.zero);
 
+  static Future<void> ensureInitialized() async {
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      await windowManager.ensureInitialized();
+    }
+  }
 
   Future<void> float() async {
     if (isFloating) return;
