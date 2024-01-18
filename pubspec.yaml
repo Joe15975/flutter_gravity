@@ -9,10 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  animated_theme_changing:
-    git:
-      url: https://github.com/Joe15975/animated_theme_changing
-
+  sensors_plus: ^4.0.2
   window_manager: ^0.3.7
 
 
