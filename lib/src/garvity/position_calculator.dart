@@ -4,10 +4,12 @@
 // simulating physics
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gravity/src/extensions.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../models/min_max.dart';
@@ -60,26 +62,52 @@ class Gravity {
   ValueNotifier<Offset> position = ValueNotifier<Offset>(Offset.zero);
 
   ValueNotifier<Offset> windowOffset = ValueNotifier<Offset>(Offset.zero);
+  ValueNotifier<Offset> accelerometerOffset = ValueNotifier<Offset>(Offset.zero);
 
   ValueNotifier<Offset> vector = ValueNotifier<Offset>(Offset.zero);
 
 
-  void float() {
+  Future<void> float() async {
+    calcForMobile();
     Timer.periodic(const Duration(milliseconds: 1), (timer) {
       updatePositionAll();
-      WindowManager.instance.getPosition().then((value) {
+      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS){
+        calcForDesktop();
+      }
+    });
+  }
 
-        setVector = Offset.lerp(
-            vector.value,
-            Offset(
-              value.dx - windowOffset.value.dx,
-              value.dy - windowOffset.value.dy,
-            ),
-            lerpTime
-        )!;
 
-        windowOffset.value = value;
-      });
+  // windows/ mac/ linux
+  void calcForDesktop(){
+    WindowManager.instance.getPosition().then((value) {
+
+      setVector = Offset.lerp(
+          vector.value,
+          Offset(
+            value.dx - windowOffset.value.dx,
+            value.dy - windowOffset.value.dy,
+          ),
+          lerpTime
+      )!;
+
+      windowOffset.value = value;
+    });
+  }
+  // android/ ios
+  void calcForMobile(){
+    gyroscopeEventStream().listen((event) {
+      setVector = Offset.lerp(
+          vector.value,
+          // had to swap x and y because of gyroscope values
+          Offset(
+            event.y - accelerometerOffset.value.dy,
+            event.x - accelerometerOffset.value.dx,
+          ).multiply(multiplier),
+          lerpTime
+      )!;
+      accelerometerOffset.value = Offset(event.x, event.y);
+      print('gyroscope: ${event.x}, ${event.y}');
     });
   }
 

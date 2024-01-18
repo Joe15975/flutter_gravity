@@ -14,6 +14,7 @@ class MyScreen extends StatefulWidget {
 class _MyScreenState extends State<MyScreen> {
 
   Gravity gravity = Gravity(
+    gravityOnly: true,
   );
 
   @override
